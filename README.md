@@ -88,7 +88,7 @@ Acesse o Mongo Express: Abra o navegador e acesse `http://localhost:8081/` e rea
 
 Conecte ao MongoDB:
 
--   Host: `localhost ou mongo(Nome do container Mongo) caso esteja rodando a aplicação que ira se conectar no mongodb em um container utilizando a mesma network`
+-   Host: `localhost` ou `mongo`(Nome do container Mongo) caso esteja rodando a aplicação que ira se conectar no mongodb em um container utilizando a mesma network
 -   Porta: `27018`
 -   Usuário: `root`
 -   Senha: `example`
