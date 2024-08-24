@@ -1,0 +1,42 @@
+version: '3.9'
+
+volumes:
+  mongo:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./mongo/data
+
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - ${MONGO_DB_PORTS}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    volumes:
+      - type: volume
+        source: mongo
+        target: /data/db
+        volume:
+          nocopy: true 
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - ${MONGO_EXTERNAL_PORT}:${MONGO_INTERNAL_PORT}
+    environment:
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_EXPRESS_ADMIN_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_EXPRESS_ADMIN_PASSWORD}
+      ME_CONFIG_BASICAUTH: true
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_USER_PASSWORD} 
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo:${MONGO_INTERNAL_PORT}/
